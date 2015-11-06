@@ -44,5 +44,12 @@ Options.prototype = {
   addAudio: function()
   {
     //
+  }, 
+
+  create: function()
+  {
+    //
   }
 };
+
+Phaser.Utils.mixinPrototype(Options.prototype, Mixins);

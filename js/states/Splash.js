@@ -3,20 +3,20 @@ var Splash = function(){};
 Splash.prototype = {
   init: function()
   {
-    this.logo = game.make.sprite(game.world.centerX, 200, 'logo');
-    this.progress = game.make.text(game.world.centerX, 380, 'Loading...', {fill: 'white'});
-    this.loadingBar = game.make.sprite(game.world.centerX-(360/2), 420, 'loadingbar');
+    this.spr_logo = game.make.sprite(game.world.centerX, 200, 'logo');
+    this.txt_progress = game.make.text(game.world.centerX, 380, 'Loading...', {fill: 'white'});
+    this.spr_loadingBar = game.make.sprite(game.world.centerX-(360/2), 420, 'loadingbar');
 
-    Helper.centerGameObjects([this.logo, this.progress]);
+    Helper.centerGameObjects([this.spr_logo, this.txt_progress]);
   },
 
   preload: function()
   {
     game.add.sprite(0, 0, 'bg_splash');
-    game.add.existing(this.logo);
-    game.add.existing(this.loadingBar);
-    game.add.existing(this.progress);
-    this.load.setPreloadSprite(this.loadingBar);
+    game.add.existing(this.spr_logo);
+    game.add.existing(this.spr_loadingBar);
+    game.add.existing(this.txt_progress);
+    this.load.setPreloadSprite(this.spr_loadingBar);
 
     this.loadScripts();
     this.loadFonts();
@@ -26,7 +26,8 @@ Splash.prototype = {
 
   loadScripts: function()
   {
-    game.load.script('Menu', 'js/states/Menu.js');
+    game.load.script('MenuSystem', 'js/states/MenuSystem.js');
+    game.load.script('MainMenu', 'js/states/MainMenu.js');
     game.load.script('Options', 'js/states/Options.js');
     game.load.script('Game', 'js/states/Game.js');
   },
@@ -50,11 +51,26 @@ Splash.prototype = {
 
   addStates: function()
   {
-    //
+    game.state.add('MenuSystem', MenuSystem);
+    game.state.add('MainMenu', MainMenu);
+    game.state.add('Options', Options);
+    game.state.add('Game', Game);
   },
 
   addAudio: function()
   {
     //
+  },
+
+  create: function()
+  {
+    this.txt_progress.setText('Ready!');
+    this.addStates();
+    this.addAudio();
+
+    setTimeout(function ()
+    {
+      game.state.start("MainMenu");
+    }, 1000);
   }
 };

@@ -44,5 +44,10 @@ Game.prototype = {
   addAudio: function()
   {
     //
+  }, 
+
+  create: function()
+  {
+    //
   }
 };

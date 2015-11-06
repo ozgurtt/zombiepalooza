@@ -8,6 +8,8 @@ Main.prototype = {
 		game.load.image('loadingbar', 'img/loadingbar.png');
 		game.load.image('logo', 'img/logo.png');
 		game.load.script('Helper', 'js/utils/Helper.js');
+		game.load.script('Mixins', 'js/utils/Mixins.js');
+		game.load.script('Styles', 'js/styles/Styles.js');
 		game.load.script('Splash', 'js/states/Splash.js');
 	},
 
