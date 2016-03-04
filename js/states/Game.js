@@ -69,6 +69,7 @@ Game.prototype = {
     this.spr_Player.body.collideWorldBounds = true;
     this.spr_Player.body.maxVelocity.setTo(400, 400);
     this.spr_Player.body.drag.setTo(600, 600);
+    this.spr_Player.barrelLength = (this.spr_Player.width/2) + 3;
 
     this.grp_Bullets = game.add.group();
     this.grp_Bullets.enableBody = true;
@@ -87,7 +88,7 @@ Game.prototype = {
     this.spr_Cursor.anchor.setTo(0.5, 0.5);
     this.CURSORS = game.input.keyboard.createCursorKeys();
 
-    this.CUR_WEAPON = new Weapon.Pistol(this.game);
+    this.CUR_WEAPON = new WeaponPistol(this.game);
   },
 
   update: function()

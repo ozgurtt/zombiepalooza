@@ -20,6 +20,7 @@ Bullet.prototype.constructor = Bullet;
 
 Bullet.prototype.fire = function(x, y, angle, speed, gx, gy)
 {
+    //console.log("Bullet.prototype.fire() - x: "+x+", y: "+y+", angle: "+angle+", speed: "+speed+", gx: "+gx+", gy: "+gy);
     gx = gx || 0;
     gy = gy || 0;
 
@@ -33,7 +34,7 @@ Bullet.prototype.fire = function(x, y, angle, speed, gx, gy)
 
 Bullet.prototype.update = function()
 {
-    console.log("Bullet.prototype.update");
+    //console.log("Bullet.prototype.update");
     if (this.tracking)
     {
         this.rotation = Math.atan2(this.body.velocity.y, this.body.velocity.x);
@@ -47,27 +48,11 @@ Bullet.prototype.update = function()
 };
 
 ////////////////////////////////////////////////////////////
-//    PISTOL
+//    PISTOL/SHOTGUN/SMG
 ////////////////////////////////////////////////////////////
 
 var BulletPistol = function(game)
 {
-    console.log("Bullet.Pistol.prototype");
-    /*
-    Phaser.Sprite.call(this, game, 0, 0, 'img_BulletPistol');
-
-    this.texture.baseTexture.scaleMode = PIXI.scaleModes.NEAREST;
-
-    this.anchor.set(0.5);
-
-    this.checkWorldBounds = true;
-    this.outOfBoundsKill = true;
-    this.exists = false;
-
-    this.tracking = false;
-    this.scaleSpeed = 0;
-    */
-
     Bullet.call(this, game, 'img_BulletPistol');
 };
 
@@ -76,30 +61,98 @@ BulletPistol.prototype.constructor = BulletPistol;
 
 BulletPistol.prototype.fire = function(x, y, angle, speed, gx, gy)
 {
-    //Bullet.prototype.fire(x, y, angle, speed, gx, gy);
-    // gx = gx || 0;
-    // gy = gy || 0;
-
-    // this.reset(x, y);
-    // this.scale.set(1);
-
-    // this.game.physics.arcade.velocityFromAngle(angle, speed, this.body.velocity);
-
-    // this.angle = angle;
+    Bullet.prototype.fire.call(this, x, y, angle, speed, gx, gy);
 };
 
 BulletPistol.prototype.update = function()
 {
-    console.log("Bullet.Pistol.prototype.update");
-    //Bullet.prototype.update();
-    // if (this.tracking)
-    // {
-    //     this.rotation = Math.atan2(this.body.velocity.y, this.body.velocity.x);
-    // }
+    Bullet.prototype.update.call(this);
+};
 
-    // if (this.scaleSpeed > 0)
-    // {
-    //     this.scale.x += this.scaleSpeed;
-    //     this.scale.y += this.scaleSpeed;
-    // }
+////////////////////////////////////////////////////////////
+//    ROCKET
+////////////////////////////////////////////////////////////
+
+var BulletRocket = function(game)
+{
+    Bullet.call(this, game, 'img_BulletRocket');
+};
+
+BulletRocket.prototype = Object.create(Bullet.prototype);
+BulletRocket.prototype.constructor = BulletRocket;
+
+BulletRocket.prototype.fire = function(x, y, angle, speed, gx, gy)
+{
+    Bullet.prototype.fire.call(this, x, y, angle, speed, gx, gy);
+};
+
+BulletRocket.prototype.update = function()
+{
+    Bullet.prototype.update.call(this);
+};
+
+////////////////////////////////////////////////////////////
+//    GRENADE
+////////////////////////////////////////////////////////////
+
+var BulletGrenade = function(game)
+{
+    Bullet.call(this, game, 'img_BulletGrenade');
+};
+
+BulletGrenade.prototype = Object.create(Bullet.prototype);
+BulletGrenade.prototype.constructor = BulletGrenade;
+
+BulletGrenade.prototype.fire = function(x, y, angle, speed, gx, gy)
+{
+    Bullet.prototype.fire.call(this, x, y, angle, speed, gx, gy);
+};
+
+BulletGrenade.prototype.update = function()
+{
+    Bullet.prototype.update.call(this);
+};
+
+////////////////////////////////////////////////////////////
+//    LANDMINE
+////////////////////////////////////////////////////////////
+
+var BulletLandmine = function(game)
+{
+    Bullet.call(this, game, 'img_BulletLandmine');
+};
+
+BulletLandmine.prototype = Object.create(Bullet.prototype);
+BulletLandmine.prototype.constructor = BulletLandmine;
+
+BulletLandmine.prototype.fire = function(x, y, angle, speed, gx, gy)
+{
+    Bullet.prototype.fire.call(this, x, y, angle, speed, gx, gy);
+};
+
+BulletLandmine.prototype.update = function()
+{
+    Bullet.prototype.update.call(this);
+};
+
+////////////////////////////////////////////////////////////
+//    FIREBALL
+////////////////////////////////////////////////////////////
+
+var BulletFireball = function(game)
+{
+    Bullet.call(this, game, 'img_BulletFireball');
+};
+
+BulletFireball.prototype = Object.create(Bullet.prototype);
+BulletFireball.prototype.constructor = BulletFireball;
+
+BulletFireball.prototype.fire = function(x, y, angle, speed, gx, gy)
+{
+    Bullet.prototype.fire.call(this, x, y, angle, speed, gx, gy);
+};
+
+BulletFireball.prototype.update = function()
+{
+    Bullet.prototype.update.call(this);
 };
