@@ -1,6 +1,5 @@
 var Bullet = function(game, key)
 {
-    console.log("Bullet.prototype");
     Phaser.Sprite.call(this, game, 0, 0, key);
 
     this.texture.baseTexture.scaleMode = PIXI.scaleModes.NEAREST;
@@ -13,6 +12,8 @@ var Bullet = function(game, key)
 
     this.tracking = false;
     this.scaleSpeed = 0;
+
+    this.damage = 1;
 };
 
 Bullet.prototype = Object.create(Phaser.Sprite.prototype);
@@ -59,15 +60,39 @@ var BulletPistol = function(game)
 BulletPistol.prototype = Object.create(Bullet.prototype);
 BulletPistol.prototype.constructor = BulletPistol;
 
-BulletPistol.prototype.fire = function(x, y, angle, speed, gx, gy)
+// BulletPistol.prototype.fire = function(x, y, angle, speed, gx, gy)
+// {
+//     Bullet.prototype.fire.call(this, x, y, angle, speed, gx, gy);
+// };
+
+// BulletPistol.prototype.update = function()
+// {
+//     Bullet.prototype.update.call(this);
+// };
+
+////////////////////////////////////////////////////////////
+//    REVOLVER
+////////////////////////////////////////////////////////////
+
+var BulletRevolver = function(game)
 {
-    Bullet.prototype.fire.call(this, x, y, angle, speed, gx, gy);
+    Bullet.call(this, game, 'img_BulletPistol');
+
+    this.damage = 2;
 };
 
-BulletPistol.prototype.update = function()
-{
-    Bullet.prototype.update.call(this);
-};
+BulletRevolver.prototype = Object.create(Bullet.prototype);
+BulletRevolver.prototype.constructor = BulletRevolver;
+
+// BulletRevolver.prototype.fire = function(x, y, angle, speed, gx, gy)
+// {
+//     Bullet.prototype.fire.call(this, x, y, angle, speed, gx, gy);
+// };
+
+// BulletRevolver.prototype.update = function()
+// {
+//     Bullet.prototype.update.call(this);
+// };
 
 ////////////////////////////////////////////////////////////
 //    ROCKET
@@ -76,6 +101,8 @@ BulletPistol.prototype.update = function()
 var BulletRocket = function(game)
 {
     Bullet.call(this, game, 'img_BulletRocket');
+
+    this.damage = 15;
 };
 
 BulletRocket.prototype = Object.create(Bullet.prototype);
@@ -98,6 +125,8 @@ BulletRocket.prototype.update = function()
 var BulletGrenade = function(game)
 {
     Bullet.call(this, game, 'img_BulletGrenade');
+
+    this.damage = 15;
 };
 
 BulletGrenade.prototype = Object.create(Bullet.prototype);
@@ -120,6 +149,8 @@ BulletGrenade.prototype.update = function()
 var BulletLandmine = function(game)
 {
     Bullet.call(this, game, 'img_BulletLandmine');
+
+    this.damage = 8;
 };
 
 BulletLandmine.prototype = Object.create(Bullet.prototype);

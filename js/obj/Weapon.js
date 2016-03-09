@@ -1,8 +1,9 @@
-var Weapon = function (game, key) {
-
-    console.log('Weapon constructor');
+var Weapon = function (game, key)
+{
+    //console.log('Weapon constructor');
     Phaser.Group.call(this, game, game.world, key, false, true, Phaser.Physics.ARCADE);
 
+    this.name = 'Default';
     this.nextFire = 0;
     this.bulletSpeed = 600;
     this.fireRate = 100;
@@ -17,7 +18,7 @@ Weapon.prototype.constructor = Weapon;
 
 Weapon.prototype.addBullets = function()
 {
-    console.log("Weapon.prototype.addBullets()");
+    //console.log("Weapon.prototype.addBullets()");
     for (var i = 0; i < 64; i++)
     {
         this.add(new Bullet(game, 'img_BulletPistol'), true);
@@ -46,21 +47,13 @@ Weapon.prototype.fire = function (source) {
 var WeaponPistol = function(game)
 {
     Weapon.call(this, game, game.world, 'Pistol', false, true, Phaser.Physics.ARCADE);
+
+    this.name = 'Pistol';
+    this.fireRate = 400;
 };
 
 WeaponPistol.prototype = Object.create(Weapon.prototype);
 WeaponPistol.prototype.constructor = WeaponPistol;
-/*
-WeaponPistol.prototype.addBullets = function()
-{
-    //
-};
-
-WeaponPistol.prototype.fire = function(source)
-{
-    //
-};
-*/
 
 ////////////////////////////////////////////////////////////
 //    REVOLVER
@@ -69,6 +62,11 @@ WeaponPistol.prototype.fire = function(source)
 var WeaponRevolver = function(game)
 {
     Weapon.call(this, game, game.world, 'Revolver', false, true, Phaser.Physics.ARCADE);
+
+    this.name = 'Revolver';
+    this.nextFire = 0;
+    this.bulletSpeed = 200;
+    this.fireRate = 600;
 };
 
 WeaponRevolver.prototype = Object.create(Weapon.prototype);
@@ -92,6 +90,9 @@ WeaponRevolver.prototype.fire = function(source)
 var WeaponSMG = function(game)
 {
     Weapon.call(this, game, game.world, 'SMG', false, true, Phaser.Physics.ARCADE);
+
+    this.name = 'SMG';
+    this.fireRate = 600;
 };
 
 WeaponSMG.prototype = Object.create(Weapon.prototype);
@@ -115,6 +116,9 @@ WeaponSMG.prototype.fire = function(source)
 var WeaponShotgun = function(game)
 {
     Weapon.call(this, game, game.world, 'Shotgun', false, true, Phaser.Physics.ARCADE);
+
+    this.name = 'Shotgun';
+    this.fireRate = 1000;
 };
 
 WeaponShotgun.prototype = Object.create(Weapon.prototype);
@@ -138,6 +142,9 @@ WeaponShotgun.prototype.fire = function(source)
 var WeaponAR = function(game)
 {
     Weapon.call(this, game, game.world, 'Assault Rifle', false, true, Phaser.Physics.ARCADE);
+
+    this.name = 'Assault Rifle';
+    this.fireRate = 100;
 };
 
 WeaponAR.prototype = Object.create(Weapon.prototype);
@@ -161,6 +168,9 @@ WeaponAR.prototype.fire = function(source)
 var WeaponHMG = function(game)
 {
     Weapon.call(this, game, game.world, 'Heavy Machine Gun', false, true, Phaser.Physics.ARCADE);
+
+    this.name = 'Heavy Machine Gun';
+    this.fireRate = 250;
 };
 
 WeaponHMG.prototype = Object.create(Weapon.prototype);
@@ -184,16 +194,22 @@ WeaponHMG.prototype.fire = function(source)
 var WeaponRPG = function(game)
 {
     Weapon.call(this, game, game.world, 'Rocket Launcher', false, true, Phaser.Physics.ARCADE);
+
+    this.name = 'Rocket Launcher';
+    this.fireRate = 2000;
 };
 
 WeaponRPG.prototype = Object.create(Weapon.prototype);
 WeaponRPG.prototype.constructor = WeaponRPG;
-/*
+
 WeaponRPG.prototype.addBullets = function()
 {
-    //
+    for (var i = 0; i < 4; i++)
+    {
+        this.add(new Bullet(game, 'img_BulletRocket'), true);
+    }
 };
-
+/*
 WeaponRPG.prototype.fire = function(source)
 {
     //
@@ -207,16 +223,22 @@ WeaponRPG.prototype.fire = function(source)
 var WeaponFlamethrower = function(game)
 {
     Weapon.call(this, game, game.world, 'Flamethrower', false, true, Phaser.Physics.ARCADE);
+
+    this.name = 'Flamethrower';
+    this.fireRate = 100;
 };
 
 WeaponFlamethrower.prototype = Object.create(Weapon.prototype);
 WeaponFlamethrower.prototype.constructor = WeaponFlamethrower;
-/*
+
 WeaponFlamethrower.prototype.addBullets = function()
 {
-    //
+    for (var i = 0; i < 8; i++)
+    {
+        this.add(new Bullet(game, 'img_BulletFireball'), true);
+    }
 };
-
+/*
 WeaponFlamethrower.prototype.fire = function(source)
 {
     //
@@ -230,16 +252,22 @@ WeaponFlamethrower.prototype.fire = function(source)
 var WeaponGL = function(game)
 {
     Weapon.call(this, game, game.world, 'Grenade Launcher', false, true, Phaser.Physics.ARCADE);
+
+    this.name = 'Grenade Launcher';
+    this.fireRate = 500;
 };
 
 WeaponGL.prototype = Object.create(Weapon.prototype);
 WeaponGL.prototype.constructor = WeaponGL;
-/*
+
 WeaponGL.prototype.addBullets = function()
 {
-    //
+    for (var i = 0; i < 6; i++)
+    {
+        this.add(new Bullet(game, 'img_BulletGrenade'), true);
+    }
 };
-
+/*
 WeaponGL.prototype.fire = function(source)
 {
     //
@@ -253,6 +281,9 @@ WeaponGL.prototype.fire = function(source)
 var WeaponSniper = function(game)
 {
     Weapon.call(this, game, game.world, 'Sniper Rifle', false, true, Phaser.Physics.ARCADE);
+
+    this.name = 'Sniper Rifle';
+    this.fireRate = 1500;
 };
 
 WeaponSniper.prototype = Object.create(Weapon.prototype);
@@ -276,6 +307,9 @@ WeaponSniper.prototype.fire = function(source)
 var WeaponLandmine = function(game)
 {
     Weapon.call(this, game, game.world, 'Landmine', false, true, Phaser.Physics.ARCADE);
+
+    this.name = 'Landmine';
+    this.fireRate = 1000;
 };
 
 WeaponLandmine.prototype = Object.create(Weapon.prototype);
@@ -299,16 +333,22 @@ WeaponLandmine.prototype.fire = function(source)
 var WeaponGrenade = function(game)
 {
     Weapon.call(this, game, game.world, 'Grenade', false, true, Phaser.Physics.ARCADE);
+
+    this.name = 'Grenade';
+    this.fireRate = 1000;
 };
 
 WeaponGrenade.prototype = Object.create(Weapon.prototype);
 WeaponGrenade.prototype.constructor = WeaponGrenade;
-/*
+
 WeaponGrenade.prototype.addBullets = function()
 {
-    //
+    for (var i = 0; i < 6; i++)
+    {
+        this.add(new Bullet(game, 'img_BulletGrenade'), true);
+    }
 };
-
+/*
 WeaponGrenade.prototype.fire = function(source)
 {
     //
@@ -321,7 +361,10 @@ WeaponGrenade.prototype.fire = function(source)
 
 var WeaponLaser = function(game)
 {
-    Weapon.call(this, game, game.world, 'Laser', false, true, Phaser.Physics.ARCADE);
+    Weapon.call(this, game, game.world, 'Laser Rifle', false, true, Phaser.Physics.ARCADE);
+
+    this.name = 'Laser Rifle';
+    this.fireRate = 1000;
 };
 
 WeaponLaser.prototype = Object.create(Weapon.prototype);
