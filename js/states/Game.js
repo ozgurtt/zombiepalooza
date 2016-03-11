@@ -12,6 +12,7 @@ Game.prototype = {
     this.DEBUG = null;
     this.arr_Weapons = [];
     this.wpnIndex = 0;
+    this.MOUSE_DOWN = false;
   },
 
   preload: function()
@@ -119,21 +120,21 @@ Game.prototype = {
     }
 
     this.arr_Weapons = [
-      new WeaponPistol(this.game), 
-      new WeaponRevolver(this.game), 
-      new WeaponSMG(this.game), 
-      new WeaponShotgun(this.game), 
-      new WeaponAR(this.game), 
-      new WeaponHMG(this.game), 
-      new WeaponRPG(this.game), 
-      new WeaponFlamethrower(this.game), 
-      new WeaponGL(this.game), 
-      new WeaponSniper(this.game), 
-      new WeaponLandmine(this.game), 
-      new WeaponGrenade(this.game), 
-      new WeaponLaser(this.game)
+      new WeaponPistol(this.game, this.spr_Player), 
+      new WeaponRevolver(this.game, this.spr_Player), 
+      new WeaponSMG(this.game, this.spr_Player), 
+      new WeaponShotgun(this.game, this.spr_Player), 
+      new WeaponAR(this.game, this.spr_Player), 
+      new WeaponHMG(this.game, this.spr_Player), 
+      new WeaponRPG(this.game, this.spr_Player), 
+      new WeaponFlamethrower(this.game, this.spr_Player), 
+      new WeaponGL(this.game, this.spr_Player), 
+      new WeaponSniper(this.game, this.spr_Player), 
+      new WeaponLandmine(this.game, this.spr_Player), 
+      new WeaponGrenade(this.game, this.spr_Player), 
+      new WeaponLaser(this.game, this.spr_Player)
     ];
-    this.CUR_WEAPON = new WeaponPistol(this.game);
+    this.CUR_WEAPON = new WeaponPistol(this.game, this.spr_Player);
 
     this.DEBUG = {
       enabled: false, 
@@ -174,8 +175,26 @@ Game.prototype = {
     //FIRE
     if(game.input.activePointer.isDown)
     {
-      this.fire();
+      this.MOUSE_DOWN = true;
     }
+
+    if(game.input.activePointer.isUp)
+    {
+      this.MOUSE_DOWN = false;
+    }
+
+    if(this.MOUSE_DOWN)
+    {
+      if(this.CUR_WEAPON && !this.CUR_WEAPON.shootTimer.running)//isShooting)
+      {
+        this.CUR_WEAPON.startShooting();
+      }
+    }/*else{
+      if(this.CUR_WEAPON && this.CUR_WEAPON.isShooting)
+      {
+        this.CUR_WEAPON.stopShooting();
+      }
+    }*/
 
     //COLLISION
 
@@ -229,25 +248,5 @@ Game.prototype = {
     }
 
     this.txt_CurrentWeapon.setText("Current weapon: "+this.CUR_WEAPON.name);
-  }, 
-
-  fire: function()
-  {
-    //TODO: Spawn bullet at end of gun barrel
-    //TODO: Match player speed when firing?
-    //http://www.html5gamedevs.com/topic/5708-fire-bullet-to-predefined-angle/
-    //http://phaser.io/tutorials/coding-tips-007
-    // if (game.time.now > this.const_TimeToNextShot && this.grp_Bullets.countDead() > 0)
-    // {
-    //   this.const_TimeToNextShot = game.time.now + this.const_ShootDelay;
-    //   var curBullet = this.grp_Bullets.getFirstExists(false);
-    //   curBullet.reset(this.spr_Player.x, this.spr_Player.y);
-    //   this.grp_Bullets.setAll('velocity.x', this.spr_Player.body.velocity.x);
-    //   this.grp_Bullets.setAll('velocity.y', this.spr_Player.body.velocity.y);
-    //   //curBullet.rotation = game.physics.arcade.moveToPointer(curBullet, 1000, game.input.activePointer, 500);
-    //   game.physics.arcade.velocityFromAngle(this.spr_Player.angle, 300, this.spr_Player.body.velocity);
-    // }
-
-    this.CUR_WEAPON.fire(this.spr_Player);
   }
 };

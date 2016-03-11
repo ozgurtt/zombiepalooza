@@ -13,6 +13,7 @@ var Bullet = function(game, key)
     this.tracking = false;
     this.scaleSpeed = 0;
 
+    this.bulletSpeed = 600;
     this.damage = 1;
 };
 
@@ -28,7 +29,7 @@ Bullet.prototype.fire = function(x, y, angle, speed, gx, gy)
     this.reset(x, y);
     this.scale.set(1);
 
-    this.game.physics.arcade.velocityFromAngle(angle, speed, this.body.velocity);
+    this.game.physics.arcade.velocityFromAngle(angle, this.bulletSpeed, this.body.velocity);
 
     this.angle = angle;
 };
@@ -79,6 +80,7 @@ var BulletRevolver = function(game)
     Bullet.call(this, game, 'img_BulletPistol');
 
     this.damage = 2;
+    this.bulletSpeed = 200;
 };
 
 BulletRevolver.prototype = Object.create(Bullet.prototype);
