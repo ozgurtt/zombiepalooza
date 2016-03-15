@@ -151,8 +151,9 @@ BulletGrenade.prototype.update = function()
 var BulletLandmine = function(game)
 {
     Bullet.call(this, game, 'img_BulletLandmine');
-
+    console.log("BulletLandmine()");
     this.damage = 8;
+    this.bulletSpeed = 0;
 };
 
 BulletLandmine.prototype = Object.create(Bullet.prototype);
@@ -160,12 +161,21 @@ BulletLandmine.prototype.constructor = BulletLandmine;
 
 BulletLandmine.prototype.fire = function(x, y, angle, speed, gx, gy)
 {
-    Bullet.prototype.fire.call(this, x, y, angle, speed, gx, gy);
+    console.log("BulletLandmine fire()");
+    //Bullet.prototype.fire.call(this, x, y, angle, speed, gx, gy);
+    //don't move
+
+    this.reset(x, y);
+    this.scale.set(1);
+
+    //this.angle = angle;
 };
 
 BulletLandmine.prototype.update = function()
 {
+    //console.log("BulletLandmine update()");
     Bullet.prototype.update.call(this);
+    //don't move
 };
 
 ////////////////////////////////////////////////////////////

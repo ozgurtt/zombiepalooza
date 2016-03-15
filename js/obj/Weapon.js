@@ -48,8 +48,13 @@ Weapon.prototype.shoot = function()
     var p = new Phaser.Point(this.player.x, this.player.y);
     p.rotate(p.x, p.y, this.player.rotation, false, this.player.barrelLength);
 
-    this.add(new Bullet(game, 'img_BulletPistol'), true);
-    this.getFirstExists(false).fire(p.x, p.y, this.player.angle, 0, 0);
+    this.addBullets(p.x, p.y, this.player.angle, 0, 0);
+};
+
+Weapon.prototype.addBullets = function(pX, pY, pAngle, gX, gY)
+{
+    this.add(new BulletPistol(game), true);
+    this.getFirstExists(false).fire(pX, pY, pAngle, gX, gY);
 };
 
 ////////////////////////////////////////////////////////////
@@ -83,6 +88,12 @@ var WeaponRevolver = function(game, player)
 WeaponRevolver.prototype = Object.create(Weapon.prototype);
 WeaponRevolver.prototype.constructor = WeaponRevolver;
 
+WeaponRevolver.prototype.addBullets = function(pX, pY, pAngle, gX, gY)
+{
+    this.add(new BulletRevolver(game), true);
+    this.getFirstExists(false).fire(pX, pY, pAngle, gX, gY);
+};
+
 ////////////////////////////////////////////////////////////
 //    SMG
 ////////////////////////////////////////////////////////////
@@ -95,7 +106,6 @@ var WeaponSMG = function(game, player)
     this.fireRate = 600;
     this.repeatCount = 3;
 
-    console.log("WeaponSMG");
     this.shootTimer = game.time.create(false);
     this.shootTimer.loop(100 * this.fireModifier, this.checkShots, this);
 };
@@ -103,25 +113,36 @@ var WeaponSMG = function(game, player)
 WeaponSMG.prototype = Object.create(Weapon.prototype);
 WeaponSMG.prototype.constructor = WeaponSMG;
 
+WeaponSMG.prototype.startShooting = function()
+{
+    if(!this.shootTimer.running)
+    {
+        this.shoot();
+        this.repeatCount--;
+        this.shootTimer.start();
+    }
+};
+
 WeaponSMG.prototype.stopShooting = function()
 {
     Weapon.prototype.stopShooting.call(this);
-    console.log("WeaponSMG stop shooting");
+
     this.repeatCount = 3;
+    this.shootTimer.loop(100 * this.fireModifier, this.checkShots, this);
 };
 
 WeaponSMG.prototype.checkShots = function()
 {
-    console.log("WeaponSMG checkShots()");
-    this.shoot();
-    console.log("repeatCount: "+this.repeatCount);
-    if(this.repeatCount > 1)
+    this.shootTimer.stop();
+    if(this.repeatCount == 2)
     {
-        this.repeatCount--;
         this.shootTimer.loop(100 * this.fireModifier, this.checkShots, this);
-    }else{
+    }else if(this.repeatCount == 1){
         this.shootTimer.loop(this.fireRate * this.fireModifier, this.stopShooting, this);
     }
+    this.shoot();
+    this.repeatCount--;
+    this.shootTimer.start();
 };
 
 ////////////////////////////////////////////////////////////
@@ -140,21 +161,18 @@ var WeaponShotgun = function(game, player)
 WeaponShotgun.prototype = Object.create(Weapon.prototype);
 WeaponShotgun.prototype.constructor = WeaponShotgun;
 
-WeaponShotgun.prototype.shoot = function ()
+WeaponShotgun.prototype.addBullets = function(pX, pY, pAngle, gX, gY)
 {
-    var p = new Phaser.Point(this.player.x, this.player.y);
-    p.rotate(p.x, p.y, this.player.rotation, false, this.player.barrelLength);
-
     var spreadAngle = (this.numBullets - 1) * this.SPREAD_ANGLE_WIDTH;
 
     for(var i = 0; i < this.numBullets; i++)
     {
-        var bulletDirection = this.player.angle - spreadAngle/2 + i * this.SPREAD_ANGLE_WIDTH;
+        var bulletDirection = pAngle - spreadAngle/2 + i * this.SPREAD_ANGLE_WIDTH;
 
         this.add(new Bullet(game, 'img_BulletPistol'), true);
-        this.getFirstExists(false).fire(p.x, p.y, bulletDirection, 0, 0);
+        this.getFirstExists(false).fire(pX, pY, bulletDirection, gX, gY);
     }
-}
+};
 
 ////////////////////////////////////////////////////////////
 //    ASSAULT RIFLE
@@ -201,12 +219,10 @@ var WeaponRPG = function(game, player)
 WeaponRPG.prototype = Object.create(Weapon.prototype);
 WeaponRPG.prototype.constructor = WeaponRPG;
 
-WeaponRPG.prototype.addBullets = function()
+WeaponRPG.prototype.addBullets = function(pX, pY, pAngle, gX, gY)
 {
-    for (var i = 0; i < 4; i++)
-    {
-        this.add(new Bullet(game, 'img_BulletRocket'), true);
-    }
+    this.add(new BulletRocket(game), true);
+    this.getFirstExists(false).fire(pX, pY, pAngle, gX, gY);
 };
 
 ////////////////////////////////////////////////////////////
@@ -224,12 +240,10 @@ var WeaponFlamethrower = function(game, player)
 WeaponFlamethrower.prototype = Object.create(Weapon.prototype);
 WeaponFlamethrower.prototype.constructor = WeaponFlamethrower;
 
-WeaponFlamethrower.prototype.addBullets = function()
+WeaponFlamethrower.prototype.addBullets = function(pX, pY, pAngle, gX, gY)
 {
-    for (var i = 0; i < 8; i++)
-    {
-        this.add(new Bullet(game, 'img_BulletFireball'), true);
-    }
+    this.add(new BulletFireball(game), true);
+    this.getFirstExists(false).fire(pX, pY, pAngle, gX, gY);
 };
 
 ////////////////////////////////////////////////////////////
@@ -247,12 +261,10 @@ var WeaponGL = function(game, player)
 WeaponGL.prototype = Object.create(Weapon.prototype);
 WeaponGL.prototype.constructor = WeaponGL;
 
-WeaponGL.prototype.addBullets = function()
+WeaponGL.prototype.addBullets = function(pX, pY, pAngle, gX, gY)
 {
-    for (var i = 0; i < 6; i++)
-    {
-        this.add(new Bullet(game, 'img_BulletGrenade'), true);
-    }
+    this.add(new BulletGrenade(game), true);
+    this.getFirstExists(false).fire(pX, pY, pAngle, gX, gY);
 };
 
 ////////////////////////////////////////////////////////////
@@ -285,6 +297,12 @@ var WeaponLandmine = function(game, player)
 WeaponLandmine.prototype = Object.create(Weapon.prototype);
 WeaponLandmine.prototype.constructor = WeaponLandmine;
 
+WeaponLandmine.prototype.addBullets = function(pX, pY, pAngle, gX, gY)
+{
+    this.add(new BulletLandmine(game), true);
+    this.getFirstExists(false).fire(pX, pY, pAngle, gX, gY);
+};
+
 ////////////////////////////////////////////////////////////
 //    GRENADE
 ////////////////////////////////////////////////////////////
@@ -300,12 +318,10 @@ var WeaponGrenade = function(game, player)
 WeaponGrenade.prototype = Object.create(Weapon.prototype);
 WeaponGrenade.prototype.constructor = WeaponGrenade;
 
-WeaponGrenade.prototype.addBullets = function()
+WeaponGrenade.prototype.addBullets = function(pX, pY, pAngle, gX, gY)
 {
-    for (var i = 0; i < 6; i++)
-    {
-        this.add(new Bullet(game, 'img_BulletGrenade'), true);
-    }
+    this.add(new BulletGrenade(game), true);
+    this.getFirstExists(false).fire(pX, pY, pAngle, gX, gY);
 };
 
 ////////////////////////////////////////////////////////////
